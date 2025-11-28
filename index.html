@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Lab Work</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            padding: 20px;
+        }
+
+        .home-page {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .lab-page {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #dc2626;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .student-info {
+            margin: 40px 0;
+            font-size: 1.3em;
+            color: #333;
+        }
+
+        .student-info p {
+            margin: 15px 0;
+        }
+
+        .student-info strong {
+            color: #991b1b;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+        }
+
+        .lab-container {
+            display: flex;
+            height: 700px;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+            padding: 30px 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .unit-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .unit-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .unit-item.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .weeks-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .weeks-list.expanded {
+            max-height: 800px;
+        }
+
+        .week-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .week-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(5px);
+        }
+
+        .week-item.active {
+            background: rgba(255, 255, 255, 0.35);
+            font-weight: bold;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .content-area::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 5px;
+        }
+
+        .subject-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .subject-header h2 {
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        .subject-header p {
+            color: #666;
+            font-size: 1.1em;
+            margin: 8px 0;
+        }
+
+        .week-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .week-content h3 {
+            color: #991b1b;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .aim-section {
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .aim-section h4 {
+            color: #dc2626;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .aim-section p {
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .code-section {
+            margin: 25px 0;
+        }
+
+        .code-section h4 {
+            color: #dc2626;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .code-block, pre.code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-section {
+            margin: 25px 0;
+        }
+
+        .output-section h4 {
+            color: #dc2626;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .output-image-container {
+            background: #f5f5f5;
+            border: 2px dashed #dc2626;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .output-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .placeholder-text {
+            color: #999;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        .placeholder-icon {
+            font-size: 4em;
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #991b1b;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .back-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        .show {
+            display: block !important;
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .unit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* extra small style for sub-section buttons to look distinct */
+        .sub-section .btn {
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            margin-top: 0;
+        }
+        .sub-section .btn.active {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Home Page -->
+        <div class="home-page" id="homePage">
+            <h1>Welcome</h1>
+            <div class="student-info">
+                <p><strong>Name:</strong> V. Vasavi</p>
+                <p><strong>Roll Number:</strong> 23W1A12C5</p>
+            </div>
+            <button class="btn" onclick="showLabWork()">Lab Work</button>
+        </div>
+
+        <!-- Lab Work Page -->
+        <div class="lab-page" id="labPage">
+            <button class="back-btn" onclick="showHome()">← Back</button>
+            <div class="lab-container">
+                <div class="sidebar">
+                    <h3>Contents</h3>
+                    
+                    <!-- Unit 1: JDBC -->
+                    <div class="unit-item active" onclick="toggleUnit('unit1')">
+                        <div class="unit-header">
+                            <span>Unit 1: JDBC</span>
+                            <span class="toggle-icon" id="unit1Toggle">▼</span>
+                        </div>
+                        <div class="weeks-list expanded" id="unit1Weeks">
+                            <div class="week-item" onclick="event.stopPropagation(); showWeek('week1', event)">Week 1</div>
+                            <div class="week-item" onclick="event.stopPropagation(); showWeek('week2', event)">Week 2</div>
+                            <div class="week-item" onclick="event.stopPropagation(); showWeek('week3', event)">Week 3</div>
+                            <div class="week-item" onclick="event.stopPropagation(); showWeek('week4', event)">Week 4</div>
+                            <div class="week-item" onclick="event.stopPropagation(); showWeek('week5', event)">Week 5</div>
+                        </div>
+                    </div>
+
+                    <!-- Unit 2: Servlets -->
+                    <div class="unit-item" onclick="toggleUnit('unit2')">
+                        <div class="unit-header">
+                            <span>Unit 2: Servlets</span>
+                            <span class="toggle-icon" id="unit2Toggle">▼</span>
+                        </div>
+                        <div class="weeks-list" id="unit2Weeks">
+                            <div class="week-item" onclick="event.stopPropagation(); showWeek('week6', event)">Week 6</div>
+                            <div class="week-item" onclick="event.stopPropagation(); showWeek('week7', event)">Week 7</div>
+                        </div>
+                    </div>
+            
+                    <!-- Unit 3: Spring Boot Basics -->
+            <div class="unit-item" onclick="toggleUnit('unit3')">
+                <div class="unit-header">
+                    <span>Unit 3: Spring Boot Basics</span>
+                    <span class="toggle-icon" id="unit3Toggle">▼</span>
+                </div>
+                 <div class="weeks-list" id="unit3Weeks">
+                    <div class="week-item" onclick="event.stopPropagation(); showWeek('week8', event)">Week 8</div>
+                    <div class="week-item" onclick="event.stopPropagation(); showWeek('week9', event)">Week 9</div>
+                    <div class="week-item" onclick="event.stopPropagation(); showWeek('week10', event)">Week 10</div>
+                </div>
+            </div>
+
+            <!-- Unit 4: Spring Data JPA -->
+            <div class="unit-item" onclick="toggleUnit('unit4')">
+                <div class="unit-header">
+                    <span>Unit 4: Spring Data JPA</span>
+                     <span class="toggle-icon" id="unit4Toggle">▼</span>
+                </div>
+                 <div class="weeks-list" id="unit4Weeks">
+                    <div class="week-item" onclick="event.stopPropagation(); showWeek('week11', event)">Week 11</div>
+                    <div class="week-item" onclick="event.stopPropagation(); showWeek('week12', event)">Week 12</div>
+                </div>
+            </div>
+
+        </div>
+                
+                <div class="content-area">
+                    <div class="subject-header">
+                        <h2>Advanced Java Lab</h2>
+                        <p><strong>Subject Code:</strong> 23IT5351</p>
+                        <p><strong>Subject Name:</strong> Advanced Java Lab</p>
+                    </div>
+                    
+                    <!-- Week 1 Content -->
+                    <div class="week-content" id="week1Content">
+                        <h3>Week 1: Introduction to Advanced Java</h3>
+                        
+                        <div class="aim-section">
+                            <p><b>What are the differences between Core Java and Advanced Java?</b><br>
+                            Core Java includes basics like syntax, datatypes, classes, objects, inheritance, and threading concepts,
+                            while Advanced Java covers Applets, Servlets, frameworks, how to connect the program & database, and networking.</p>
+
+                            <p><b>What are the main important features of Applets in Java?</b><br>
+                            Java Applets were small programs that run inside a web browser. Also known as Standalone Applications.<br>
+                            • Small and lightweight.</p>
+
+                            <p><b>What are the key features of Java Servlets?</b><br>
+                            Servlets extend the functionality of a web server by handling requests and generating dynamic responses. 
+                            They work on the Server side, have better performance, integrate easily with databases, and are also known as Web Applications.</p>
+
+                            <p><b>What is the difference between Applets and Servlets in Java?</b><br>
+                            <u>Applets</u><br>
+                            • Executed on Client side.<br>
+                            • Uses UI classes like AWT & Swing.<br>
+                            • Requires a Java-compatible browser for execution.<br><br>
+                            <u>Servlets</u><br>
+                            • Executed on Server side.<br>
+                            • No user interface is required.<br>
+                            • Accepts input from browser and generates response as an HTML page.</p>
+
+                            <p><b>What are the major features of Java compared to other programming languages?</b><br>
+                            Platform independence, object-oriented programming, robustness and security, and multithreading.</p>
+
+                            <p><b>What is the main role of JDBC and ODBC in database connectivity?</b><br>
+                            JDBC (Java Database Connectivity): Java API to connect and execute queries with databases.<br>
+                            ODBC (Open Database Connectivity): Language-independent API for database access.<br>
+                            JDBC provides a way for Java applications to interact with a database using SQL.</p>
+
+                            <p><b>What are the differences between ODBC and JDBC?</b><br>
+                            JDBC is designed for Java applications and interacts easily with relational databases, 
+                            while ODBC is language-agnostic and can be used with various programming languages.</p>
+
+                            <p><b>What are the differences between Cookies and Sessions in web applications?</b><br>
+                            Cookies are small pieces of data stored in the user's browser and help remember things like login status or preferences.<br>
+                            Sessions store user data on the server, making them more secure and suitable for temporary or sensitive data.</p>
+
+                            <p><b>What are the differences between Spring Boot and the traditional Spring Framework?</b><br>
+                            Spring Framework provides the foundation and flexibility for building complex applications, 
+                            while Spring Boot simplifies and accelerates the development process.</p>
+
+                            <p><b>What are the differences between standalone applications and web applications?</b><br>
+                            Web apps are used through a browser, while standalone apps (desktop/offline apps) can be accessed offline.</p>
+
+                            <p><b>What are the basic requirements for executing a web application?</b><br>
+                            Database, Browser, Backend, Frontend, Input Validation, JavaScript, and Web Server.</p>
+                        </div>
+                    </div>
+
+                    <!-- Week 2 Content -->
+                    <div class="week-content hide" id="week2Content">
+                        <h3>Week 2: JDBC CRUD Operations (MS Access Database)</h3>
+                        
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p>To develop a standalone Java application in NetBeans that connects to an MS Access database, performs CRUD operations, and displays dynamic data based on the database content.</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <pre class="code-block">import java.sql.*;
+import java.util.*;
+public class Project2S{
+    public static void main(String args[])
+    {
+        try
+        {
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");        
+            Connection con=DriverManager.getConnection("jdbc:ucanaccess://D:\\vrsec.accdb");
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery("select * from it");
+            while(rs.next())
+            {
+                System.out.println("emp Number is:"+rs.getString(1));
+                System.out.println("emp name is:"+rs.getString(2));
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    } 
+}</pre>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output:</h4>
+                            <div class="output-image-container">
+                                <img src="week2.png" alt="Week 2 Output" style="width:100%; height:100%; object-fit:contain; border-radius:8px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 3 Content -->
+                    <div class="week-content hide" id="week3Content">
+                        <h3>Week 3: Java Application with MySQL Database</h3>
+                        
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p>To connect a Java Application with MySQL Database (With Data Source Name)</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <pre class="code-block">package withdsn;
+import java.sql.*;
+import java.util.*;
+
+public class Withdsn {
+
+    public static void main(String[] args) {
+ 
+        try{
+            Class.forName("com.mysql.jdbc.Driver");  
+
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost/employee","root","");  
+            Statement st=con.createStatement();
+            int insert = st.executeUpdate("insert into employee values(104,\"vasavi\")");
+
+            ResultSet rs=st.executeQuery("select * from employee");  
+            while(rs.next())  
+                System.out.println(rs.getInt(1)+"  "+rs.getString(2));  
+            con.close();  
+        }catch(Exception e){ System.out.println(e);}  
+    }
+
+}</pre>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output:</h4>
+                            <div class="output-image-container">
+                                <img src="week3.png" alt="Week 3 Output" style="width:100%; height:100%; object-fit:contain; border-radius:8px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 4 Content -->
+                    <div class="week-content hide" id="week4Content">
+                        <h3>Week 4: Callable Statement</h3>
+                        
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p>Write a JDBC program to connect to the database for inserting data into the Student table using callable statement</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <pre class="code-block">package callable_stament;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class Callable_stament {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter Book ID: ");
+        int bookId = scanner.nextInt();
+     
+        String url = "jdbc:mysql://localhost/procedures"; 
+        String user = "root";
+        String password = "";
+        Connection conn = null;
+        CallableStatement cstmt = null;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            conn = DriverManager.getConnection(url, user, password);
+            String sql = "{CALL getBookInfo1(?, ?, ?, ?, ?)}";
+            cstmt = conn.prepareCall(sql);
+            cstmt.setInt(1, bookId);
+            cstmt.registerOutParameter(2, Types.VARCHAR); 
+            cstmt.registerOutParameter(3, Types.VARCHAR);  
+            cstmt.registerOutParameter(4, Types.DECIMAL); 
+            cstmt.registerOutParameter(5, Types.INTEGER);  
+            
+            cstmt.execute();
+            String title = cstmt.getString(2);
+            String author = cstmt.getString(3);
+            double price = cstmt.getDouble(4);
+            int stock = cstmt.getInt(5);
+            if (title != null) {
+                System.out.println("Book Details:");
+                System.out.println("Title: " + title);
+                System.out.println("Author: " + author);
+                System.out.println("Price: $" + price);
+                System.out.println("Available Stock: " + stock);
+            } else {
+                System.out.println("No book found with ID " + bookId);
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Database error:");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cstmt != null) cstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            scanner.close();
+        }
+    }
+}
+
+<b>Procedure:</b>
+CREATE  PROCEDURE getBookInfo(
+    IN bookId INT,
+    OUT title VARCHAR(255),
+    OUT author VARCHAR(255),
+    OUT price DECIMAL(10,2),
+    OUT stock INT
+)
+BEGIN
+    SELECT books.title, books.author, books.price, books.stock
+    INTO title, author, price, stock
+    FROM books
+    WHERE book_id = bookId;
+END |</pre>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output:</h4>
+                            <div class="output-image-container">
+                                <img src="week4.png" alt="Week 4 Output" style="width:80%; height:80%; object-fit:contain; border-radius:8px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 5 Content -->
+                    <div class="week-content hide" id="week5Content">
+                        <h3>Week 5: JDBC ResultSet</h3>
+                        
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p>To demonstrate JDBC ResultSet navigation using a scroll-insensitive, read-only ResultSet in a MySQL database connection.</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <pre class="code-block">package result_set;
+import java.sql.*;
+
+public class Result_set {
+    public static void main(String[] args) {
+        String jdbcURL = "jdbc:mysql://localhost/employee";
+        String username = "root";
+        String password = "";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+
+            // Create a scrollable, read-only Statement
+            Statement statement = connection.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE, // scrollable
+                ResultSet.CONCUR_READ_ONLY          // read-only
+            );
+
+            ResultSet result = statement.executeQuery("SELECT eno, name FROM employee");
+
+            // Move cursor to last row
+            if (result.last()) {
+                System.out.println("Last row - Employee No: " + result.getInt("eno") + ", Name: " + result.getString("name"));
+            }
+
+            // Move cursor to first row
+            if (result.first()) {
+                System.out.println("First row - Employee No: " + result.getInt("eno") + ", Name: " + result.getString("name"));
+            }
+
+            // Move cursor before the first row and then call next()
+            result.beforeFirst();
+            System.out.println("Iterating forward:");
+            while (result.next()) {
+                System.out.println("Employee No: " + result.getInt("eno") + ", Name: " + result.getString("name"));
+            }
+
+            // Jump to absolute row 3
+            if (result.absolute(3)) {
+                System.out.println("Absolute row 3 - Employee No: " + result.getInt("eno") + ", Name: " + result.getString("name"));
+            }
+
+            connection.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</pre>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output:</h4>
+                            <div class="output-image-container">
+                                <img src="week5.png" alt="Week 5 Output" style="width:80%; height:80%; object-fit:contain; border-radius:8px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Week 6 Content -->
+                    <div class="week-content hide" id="week6Content">
+                        <h3>Week 6: Servlet Program</h3>
+                        
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p>To develop a simple Java Servlet program and displays the message” Hello”</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <div class="code-block">
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+public class NewServlet extends HttpServlet 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Set content type
+        response.setContentType("text/html");
+        // Print "Hello"
+        PrintWriter out = response.getWriter();
+        <!--out.println("<h1>Hello C5</h1>");-->
+         out.println("&lt;h1&gt;Hello C5&lt;/h1&gt;");
+
+    }
+
+</div>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output:</h4>
+                            <div class="output-image-container">
+                               <!-- <div class="placeholder-icon">🖼️</div>
+                                <p class="placeholder-text">Place your output image here</p>-->
+                                <img src="week6-1.png" alt="Week 6 Output" style="width:80%; height:80%; object-fit:contain; border-radius:8px;">
+                            </div>
+                        </div>
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p> To develop a simple Java program using GenericServlet that handles client requests.</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <div class="code-block">
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+public class genericServlet extends GenericServlet {
+    @Override
+    public void service(ServletRequest request, ServletResponse response)
+            throws ServletException, IOException {
+        // Set content type
+        response.setContentType("text/html");
+        // Print "Hello"
+        PrintWriter out = response.getWriter();
+       <!-- out.println("<h1>Hello from GenericServlet</h1>");-->
+        out.println("&lt;h1&gt;Hello from GenericServlet&lt;/h1&gt;");
+    }
+}
+
+</div>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output:</h4>
+                            <div class="output-image-container">
+                               <!-- <div class="placeholder-icon">🖼️</div>
+                                <p class="placeholder-text">Place your output image here</p>-->
+                                <img src="week6-2.png" alt="Week 6 Output" style="width:80%; height:80%; object-fit:contain; border-radius:8px;">
+                            </div>
+                        </div>
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p> To design and implement a Pizza Order Web Application using HTML Form and Servlet.</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <div class="code-block">
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class FormData extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        // ✅ show plain text instead of HTML
+        response.setContentType("text/plain");
+
+        PrintWriter out = response.getWriter();
+
+        String name = request.getParameter("fullname");
+        String phone = request.getParameter("phone");
+        String gender = request.getParameter("gender");
+        String[] languages = request.getParameterValues("pl");
+        String duration = request.getParameter("duration");
+        String comments = request.getParameter("comments");
+
+        out.println("<html><body>");
+        <!--out.println("<h3>Details Entered</h3>");-->
+        out.println("&lt;h3&gt;Details Entered &lt;/h3&gt;");
+
+        out.println("<br>Full Name: " + name);
+        out.println("<br>Phone Number: " + phone);
+        out.println("<br>Gender: " + gender);
+        out.print("<br>Programming languages selected: ");
+
+        if (languages != null) {
+            for (String lang : languages) {
+                out.print(lang + ", ");
+            }
+        } else {
+            out.print("None");
+        }
+
+        out.println("<br>Duration of course: " + duration);
+        out.println("<br>Comments: " + comments);
+        out.println("</body></html>");
+    }
+}
+
+</div>
+                        </div>
+                        
+                        <div class="output-section">
+  <h4>Output:</h4>
+  <div class="output-image-container">
+    <img src="week6-3.png" alt="Week 6 Output 1"
+         style="width:48%; height:auto; object-fit:contain; border-radius:8px; margin:5px;">
+    <img src="week6-4.png" alt="Week 6 Output 2"
+         style="width:48%; height:auto; object-fit:contain; border-radius:8px; margin:5px;">
+  </div>
+</div>
+                    </div>
+
+                    <!-- Week 7 Content -->
+                 <!-- <div class="week-content hide" id="week7Content">
+                        <h3>Week 7: Cookies/h3>
+                        
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p>To create and read cookies in a web application, storing user details.</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <div class="code-block">
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output Screenshot:</h4>
+                            <div class="output-image-container">
+                                <div class="placeholder-icon">🖼️</div>
+                                <p class="placeholder-text">Place your output image here</p>
+                                 <img src="week7.png" alt="Week 7 Output"> 
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="week-content hide" id="week7Content">
+  <h3>Week 7: Cookies</h3>
+
+  <div class="document-section">
+    <h4>Week 7 Document:</h4>
+    <div class="output-image-container"
+         style="background:#f5f5f5; border:2px dashed #dc2626; border-radius:10px; 
+                padding:10px; display:flex; justify-content:center;">
+      <iframe src="week-7 Cookie&Session.pdf" width="100%" height="600px"
+              style="border:none; border-radius:8px;"></iframe>
+    </div>
+  </div>
+</div>
+
+                    <!-- Week 8 Content -->
+                    <div class="week-content hide" id="week8Content">
+                        <h3>Week 8: Spring Boot Using Maven</h3>
+                        
+                        <div class="aim-section">
+                            <h4>Aim:</h4>
+                            <p>To create a simple Spring Boot application that runs successfully and prints “Hello World” to verify the setup.</p>
+                        </div>
+                        
+                        <div class="code-section">
+                            <h4>Code:</h4>
+                            <pre class="code-block">package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+        System.out.println("Hello World");
+    }
+}
+</pre>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h4>Output:</h4>
+                            <div class="output-image-container">
+                                <!-- Place your Week 8 output image in the same folder and name it week8.png -->
+                                <img src="week8.png" alt="Week 8 Output" style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+                            </div>
+                        </div>
+                    </div>
+
+<!-- Week 9 Content -->
+<div class="week-content hide" id="week9Content">
+    <h3>Week 9: Spring Boot REST APIs</h3>
+    
+    <div class="aim-section">
+        <h4>Aim:</h4>
+        <p>To develop GET and POST REST API endpoints using Spring Boot and verify their responses through Postman.</p>
+    </div>
+    
+    <div class="code-section">
+        <h4>Code:</h4>
+        <pre class="code-block">package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class ApiController {
+
+    @GetMapping("/api/greeting")
+    public String getGreeting() {
+        return "Hello from GET endpoint!";
+    }
+
+    @PostMapping("/api/greeting")
+    public String postGreeting(@RequestBody String name) {
+        return "Hello, 23W1A12C5 from POST endpoint!";
+    }
+}
+</pre>
+    </div>
+    
+    <div class="output-section">
+        <h4>Output:</h4>
+        <div class="output-image-container">
+            <!-- Place your Week 9 output image (named week9.png) in same folder as the HTML -->
+            <img src="week9.png" alt="Week 9 Output" style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+        </div>
+    </div>
+</div>
+  
+<!-- Week 10 Content -->
+<div class="week-content hide" id="week10Content">
+    <h3>Week 10: Spring Boot Annotations </h3>
+    
+    <div class="aim-section">
+        <h4>Select Aim:</h4>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <button class="btn" onclick="showWeekSub('week10','prog1', this)">AIM 1: Hello World Web App</button>
+            <button class="btn" onclick="showWeekSub('week10','prog2', this)">AIM 2: Pass Parameters via URL/Query</button>
+        </div>
+    </div>
+
+    <!-- Subsection 1 -->
+    <div class="sub-section hide" id="week10-prog1">
+        <div class="code-section">
+            <h4>Code (Program 1):</h4>
+            <pre class="code-block">
+<b> DemoWebApplication.java</b>
+package com.example.demo_web;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoWebApplication {
+
+public static void main(String[] args) {
+SpringApplication.run(DemoWebApplication.class, args);
+//System.out.println("Web program example");
+}
+}
+<b>HelloController.java</b>
+package com.example.demo_web;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+@RestController
+public class HelloController {
+@GetMapping("/hello")
+public String hello() {
+return "Hello world";
+}
+}
+</pre>
+        </div>
+        <div class="output-section">
+            <h4>Output:</h4>
+            <div class="output-image-container">
+                <img src="week10_1.png" alt="Week10 Prog1 Output" style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Subsection 2 -->
+    <div class="sub-section hide" id="week10-prog2">
+        <div class="code-section">
+            <h4>Code (Program 2):</h4>
+            <pre class="code-block">
+<b>WelcomeApplication.java</b>
+package com.example.welcome;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class WelcomeApplication {
+
+public static void main(String[] args) {
+SpringApplication.run(WelcomeApplication.class, args);
+}
+}
+<b>WelcomeController.java</b>
+package com.example.welcome;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+public class WelcomeController {
+
+    // Example: http://localhost:8080/api/welcome?name=Hansika
+    @GetMapping("/welcome")
+    public String welcome(@RequestParam String name) {
+        return "Welcome " + name + "!";
+    }
+
+    // Example: http://localhost:8080/api/square/5
+    @GetMapping("/square/{num}")
+    public String square(@PathVariable int num) {
+        return "Square of " + num + " = " + (num * num);
+    }
+}
+</pre>
+        </div>
+        <div class="output-section">
+            <h4>Output:</h4>
+            <div class="output-image-container">
+                <img src="week10_2.png" alt="Week10 Prog2 Output" style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Week 11 Content (Unit 4) -->
+<div class="week-content hide" id="week11Content">
+    <h3>Week 11: Spring Data JPA – JDBC Template with H2 & Spring JPA with H2</h3>
+
+    <div class="aim-section">
+        <h4>Select Aim:</h4>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <button class="btn" onclick="showWeekSub('week11','prog1', this)">AIM 1: JDBC Template with H2</button>
+            <button class="btn" onclick="showWeekSub('week11','prog2', this)">AIM 2: Spring JPA with H2</button>
+        </div>
+    </div>
+
+    <!-- AIM 1: JDBC Template with H2 -->
+    <div class="sub-section hide" id="week11-prog1">
+        <div class="aim-section">
+            <h4>AIM 1:</h4>
+            <p>To create JDBC Template examples using an in-memory H2 database.</p>
+        </div>
+
+        <div class="code-section">
+            <h4>Code (JDBC Template with H2):</h4>
+            <pre class="code-block">
+<b>Dependencies: spring-boot-starter-web, spring-boot-starter-jdbc, com.h2database:h2 </b>
+
+<b>Author.java</b>
+package com.example.demo;
+
+public class Author {
+    private String firstName;
+    private String lastName;
+
+    public Author() {}
+
+    public Author(String firstName, String lastName) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+}
+            
+<b>AuthorService.java</b>
+package com.example.demo;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import jakarta.annotation.PostConstruct;
+
+@Service
+public class AuthorService {
+    private static final Logger log = LoggerFactory.getLogger(AuthorService.class);
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @PostConstruct
+    public void postConstruct() {
+        Author author1 = new Author("ramesh", "it");
+        Author author2 = new Author("harshith", "it");
+        List&lt;Author&gt; authors = new ArrayList&lt;&gt;();
+        authors.add(author1);
+        authors.add(author2);
+
+        log.info("Creating tables");
+        jdbcTemplate.execute("DROP TABLE author IF EXISTS");
+        jdbcTemplate.execute("CREATE TABLE author(first_name varchar(255), last_name varchar(255))");
+        authors.forEach(i -> jdbcTemplate.update("INSERT INTO author(first_name, last_name) VALUES (?,?)", i.getFirstName(), i.getLastName()));
+        log.info("Records Saved");
+
+        // retrieve saved records.
+        log.info("Retrieving records");
+        authors = jdbcTemplate.query("select * from author", (rs, rowNum) -> new Author(rs.getString("first_name"), rs.getString("last_name")));
+        authors.forEach(i -> log.info(i.getFirstName() + " " + i.getLastName()));
+    }
+}
+
+<b>application.properties</b>
+server.port=83
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+<b>Open H2 console:</b> <code>http://localhost:83/h2-console</code>
+            </pre>
+        </div>
+
+        <div class="output-section">
+            <h4>Output:</h4>
+            <div class="output-image-container">
+                <img src="week11_1.png" alt="Week 11 AIM1 Output" style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+            </div>
+            <p style="margin-top:10px;color:#666;"></p>
+        </div>
+    </div>
+
+    <!-- AIM 2: Spring JPA with H2 -->
+    <div class="sub-section hide" id="week11-prog2">
+        <div class="aim-section">
+            <h4>AIM 2:</h4>
+            <p>To create a Spring JPA project using H2 in-memory database and perform CRUD using browser (no Postman required).</p>
+        </div>
+
+        <div class="code-section">
+            <h4>Code (Spring JPA with H2):</h4>
+            <pre class="code-block">
+<b> Dependencies:</b> spring-boot-starter-web, spring-boot-starter-data-jpa, com.h2database:h2
+
+<b>Student.java</b>
+package com.example.demo;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String city;
+
+    public Student() {}
+
+    public Student(String name, String city) {
+        this.name = name;
+        this.city = city;
+    }
+
+    // getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
+}
+
+<b>StudentRepository.java</b>
+package com.example.demo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
+}
+
+<b>StudentController.java</b>
+package com.example.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class StudentController {
+
+    @Autowired
+    private StudentRepository repo;
+
+    @GetMapping("/")
+    public String home() {
+        return "Spring Boot + H2 + JPA Example Running!";
+    }
+
+    // Example: http://localhost:8080/add?name=Anand&city=Vijayawada
+    @GetMapping("/add")
+    public String addStudent(@RequestParam String name, @RequestParam String city) {
+        repo.save(new Student(name, city));
+        return "Student Added Successfully!";
+    }
+
+    // View all students: http://localhost:8080/students
+    @GetMapping("/students")
+    public List&lt;Student&gt; getStudents() {
+        return repo.findAll();
+    }
+}
+
+<b>application.properties</b>
+spring.application.name=ramesh
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+spring.jpa.hibernate.ddl-auto=update
+
+            </pre>
+        </div>
+
+        <div class="output-section">
+            <h4>Output:</h4>
+            <div class="output-image-container">
+                <img src="week11_2.png" alt="Week 11 AIM2 Output" style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+            </div>
+            <p style="margin-top:10px;color:#666;">Test in browser: <code>http://localhost:8080/</code> — then add a student: <code>/add?name=Anand&city=Vijayawada</code></p>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Week 12 Content -->
+<div class="week-content hide" id="week12Content">
+    <h3>Week 12: Spring Data JPA + JDBC Template</h3>
+
+    <div class="aim-section">
+        <h4>Select Aim:</h4>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <button class="btn" onclick="showWeekSub('week12','prog1', this)">AIM 1: JDBC Template with MySQL</button>
+            <button class="btn" onclick="showWeekSub('week12','prog2', this)">AIM 2: Spring JPA with MySQL</button>
+        </div>
+    </div>
+
+    <!-- AIM 1 SUB-SECTION -->
+    <div class="sub-section hide" id="week12-prog1">
+        <div class="aim-section">
+            <h4>AIM 1:</h4>
+            <p>To create a JDBC Template program using Spring Boot with MySQL database.</p>
+        </div>
+
+        <div class="code-section">
+            <h4>Code (JDBC Template):</h4>
+            <pre class="code-block">
+<b>JDBC with MySQL</b>
+<b>Employee.java</b>
+package com.example.demo;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Employee {
+
+    @Id
+    private int id;
+    private String name;
+    private String department;
+
+    public Employee() {}
+
+    public Employee(int id, String name, String department) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getDepartment() {
+        return department;
+    }
+}
+
+
+<b>EmployeeRepository.java</b>
+package com.example.demo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeRepository extends JpaRepository Employee, Integer { }
+
+<b>EmployeeController.java</b>
+package com.example.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
+@RestController
+public class EmployeeController {
+
+    @Autowired
+    EmployeeRepository repo;
+
+    @GetMapping("/employees")
+    public List&lt;Employee&gt; getAllEmployees() {
+        return repo.findAll();
+    }
+}
+
+<b>MysqlJdbcDemoApplication.java</b>
+package com.example.demo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class RameshApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(RameshApplication.class, args);
+		System.out.println("welcome");
+}
+}
+
+<b>application.properties</b>
+spring.application.name=ramesh
+server.port=85
+spring.datasource.url=jdbc:mysql://localhost:3306/employee_db?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.sql.init.mode=always
+spring.sql.init.platform=mysql
+spring.jpa.defer-datasource-initialization=true
+
+<b>DATABASE</b>
+
+Create database employee_db;
+Use employee_db;
+CREATE TABLE IF NOT EXISTS employee (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    department VARCHAR(255)
+
+);
+
+<b>data.sql</b>
+INSERT INTO employee (id, name, department) VALUES
+(1, 'Ramesh', 'IT'),
+(2, 'Suresh', 'CSE'),
+(3, 'Mahesh', 'ECE');
+
+<b>Pom.xml</b>
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+	&lt;parent&gt;
+		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+		&lt;version&gt;3.5.7&lt;/version&gt;
+		&lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+	&lt;/parent&gt;
+	&lt;groupId&gt;com.example&lt;/groupId&gt;
+	&lt;artifactId&gt;MysqlJdbcDemo&lt;/artifactId&gt;
+	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+	&lt;name&gt;MysqlJdbcDemo&lt;/name&gt;
+	&lt;properties&gt;
+		&lt;java.version&gt;17&lt;/java.version&gt;
+	&lt;/properties&gt;
+	&lt;dependencies&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-data-jdbc&lt;/artifactId&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;mysql&lt;/groupId&gt;
+			&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+			&lt;version&gt;5.1.49&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+	&lt;/dependencies&gt;
+	&lt;build&gt;
+		&lt;plugins&gt;
+			&lt;plugin&gt;
+				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+				&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+			&lt;/plugin&gt;
+		&lt;/plugins&gt;
+	&lt;/build&gt;
+&lt;/project&gt;
+
+<b>http://localhost:85/employees</b>
+            </pre>
+        </div>
+
+        <div class="output-section">
+            <h4>Output:</h4>
+            <div class="output-image-container">
+                <img src="week12_1.png" alt="Week 12 Program 1 Output"
+                     style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- AIM 2 SUB-SECTION -->
+    <div class="sub-section hide" id="week12-prog2">
+        <div class="aim-section">
+            <h4>AIM 2:</h4>
+            <p>To create a Spring Data JPA project using MySQL and perform CRUD operations.</p>
+        </div>
+
+        <div class="code-section">
+            <h4>Code (Spring JPA):</h4>
+            <pre class="code-block">
+<b>Dependencies:</b>  Spring web, Spring data jpa  and mysql drver
+
+<b>1.	application.properties</b>
+
+spring.application.name=jpamysql
+server.port=88
+
+# JDBC - change user/password/db name as needed
+spring.datasource.url=jdbc:mysql://localhost:3306/testdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+
+# JPA / Hibernate
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+# Explicitly set Hibernate dialect (helps when JDBC metadata not available)
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+<b>2.  Create database + sample data (run in MySQL)</b>
+CREATE DATABASE IF NOT EXISTS testdb;
+USE testdb;
+
+CREATE TABLE IF NOT EXISTS employee (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100),
+  department VARCHAR(100)
+);
+
+INSERT INTO employee (name, department) VALUES
+('Ramesh','IT'),
+('Suresh','CSE'),
+('Mahesh','ECE');
+
+<b>3) Entity — Employee.java</b>
+src/main/java/com/example/demo/Employee.java
+package com.example.demo;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String name;
+    private String department;
+
+    public Employee() {}
+
+    public Employee(String name, String department) {
+        this.name = name;
+        this.department = department;
+    }
+
+    // getters and setters — required for Jackson / JPA
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+}
+<b>4) Repository — EmployeeRepository.java</b>
+src/main/java/com/example/demo/EmployeeRepository.java
+package com.example.demo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeRepository extends JpaRepository&lt;Employee, Integer&gt; { }
+<b>5) Controller — returns JSON and HTML view</b>
+src/main/java/com/example/demo/EmployeeController.java
+package com.example.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+// REST endpoints
+@RestController
+@RequestMapping("/api")
+class EmployeeRestController {
+    @Autowired
+    private EmployeeRepository repo;
+
+    @GetMapping("/employees")
+    public List&lt;Employee&gt; getAll() {
+        return repo.findAll();
+    }
+}
+
+// HTML (Thymeleaf) controller
+@Controller
+class EmployeeViewController {
+    @Autowired
+    private EmployeeRepository repo;
+
+    @GetMapping("/employees")
+    public String employeesPage(Model model) {
+        model.addAttribute("employees", repo.findAll());
+        return "employees";  // maps to src/main/resources/templates/employees.html
+    }
+}
+<b>6) Thymeleaf template — employees.html</b>
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"/&gt;
+    &lt;title&gt;Employees&lt;/title&gt;
+    &lt;style&gt;
+      table { border-collapse: collapse; width: 70%; margin-top: 20px; }
+      th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+      th { background: #efefef; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Employee List&lt;/h2&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Department&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr th:each="e : ${employees}"&gt;
+        &lt;td th:text="${e.id}"&gt;1&lt;/td&gt;
+        &lt;td th:text="${e.name}"&gt;Name&lt;/td&gt;
+        &lt;td th:text="${e.department}"&gt;Dept&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+<b>7. pom.xml add these code</b>
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;5.1.49&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+<b>8)Run in STS</b>
+1.	Import project into STS (File → Import → Existing Maven Projects).
+2.	Right-click project → Run As → Spring Boot App.
+3.	Visit:
+o	HTML table: http://localhost:8080/employees
+o	JSON API: http://localhost:8080/api/employees
+            </pre>
+        </div>
+
+        <div class="output-section">
+            <h4>Output:</h4>
+            <div class="output-image-container">
+                <img src="week12_2.png" alt="Week 12 Program 2 Output"
+                     style="width:100%; height:auto; object-fit:contain; border-radius:8px;">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+function showLabWork() {
+    document.getElementById('homePage').classList.add('hide');
+    document.getElementById('labPage').classList.add('show');
+    showWeek('week1');
+}
+
+function showHome() {
+    document.getElementById('labPage').classList.remove('show');
+    document.getElementById('homePage').classList.remove('hide');
+}
+
+function toggleUnit(unitId) {
+    const weeksList = document.getElementById(unitId + 'Weeks');
+    const toggle = document.getElementById(unitId + 'Toggle');
+    if (weeksList) weeksList.classList.toggle('expanded');
+    if (toggle) toggle.classList.toggle('rotated');
+}
+
+/* MAIN: shows a week content by id */
+function showWeek(weekId, evt) {
+
+    // Hide all weeks
+    document.querySelectorAll('.week-content').forEach(week => {
+        week.classList.add('hide');
+        week.classList.remove('show');
+    });
+
+    // Remove active highlight from all sidebar items
+    document.querySelectorAll('.week-item').forEach(item => item.classList.remove('active'));
+
+    // Show selected week
+    const selected = document.getElementById(weekId + 'Content');
+    if (selected) {
+        selected.classList.remove('hide');
+        selected.classList.add('show');
+    }
+
+    // Safe active highlight for clicked sidebar item
+    try {
+        if (evt && evt.currentTarget) {
+            evt.currentTarget.classList.add('active');
+        } else if (evt && evt.target && evt.target.classList.contains('week-item')) {
+            evt.target.classList.add('active');
+        }
+    } catch (e) {}
+    
+    // Scroll to top
+    const contentArea = document.querySelector('.content-area');
+    if (contentArea) contentArea.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* show sub-section inside a week (used by Week 10 & Week 12) */
+function showWeekSub(weekId, subId, btnElement) {
+
+    // Show the week first
+    showWeek(weekId);
+
+    // Hide all sub-sections
+    document.querySelectorAll('#' + weekId + 'Content .sub-section')
+        .forEach(sec => { sec.classList.add('hide'); sec.classList.remove('show'); });
+
+    // Show selected sub-section
+    const target = document.getElementById(weekId + '-' + subId);
+    if (target) {
+        target.classList.remove('hide');
+        target.classList.add('show');
+    }
+
+    // Remove active class from the other buttons in this week
+    const buttons = document.querySelectorAll('#' + weekId + 'Content .btn');
+    buttons.forEach(b => b.classList.remove('active'));
+
+    // Highlight clicked button
+    if (btnElement) btnElement.classList.add('active');
+}
+
+    </script>
+
+          
+</body>
+</html>
